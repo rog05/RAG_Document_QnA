@@ -13,7 +13,7 @@ import openai
 
 from dotenv import load_dotenv
 load_dotenv()
-## load the GROQ API Key
+
 os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
 os.environ['GROQ_API_KEY']=os.getenv("GROQ_API_KEY")
 groq_api_key=os.getenv("GROQ_API_KEY")
@@ -40,8 +40,8 @@ prompt=ChatPromptTemplate.from_template(
 def create_vector_embedding():
     if "vectors" not in st.session_state:
         st.session_state.embeddings=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        st.session_state.loader=PyPDFDirectoryLoader("research_papers") ## Data Ingestion step
-        st.session_state.docs=st.session_state.loader.load() ## Document Loading
+        st.session_state.loader=PyPDFDirectoryLoader("research_papers") 
+        st.session_state.docs=st.session_state.loader.load() 
         st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
         st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:50])
         st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings)
@@ -66,7 +66,7 @@ if user_prompt:
 
     st.write(response['answer'])
 
-    ## With a streamlit expander
+    ## streamlit 
     with st.expander("Document similarity Search"):
         for i,doc in enumerate(response['context']):
             st.write(doc.page_content)
